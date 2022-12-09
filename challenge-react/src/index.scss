@@ -1,0 +1,22 @@
+.btn {
+  border: none;
+  border-radius: 20px;
+  // padding: 8px;
+  width: 8em;
+  height: 50px;
+  background-color: #67CD79;
+  font-size: 16px;
+  font-weight: 600;
+  color: azure;
+}
+
+.btn:hover {
+  background-color: #4da55d;
+  color: black;
+}
+
+.table-wrapper {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
