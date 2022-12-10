@@ -1,8 +1,34 @@
 import userPic from "../assets/user.png";
 import { Button } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 const UserList = () => {
+  const [users, setUsers] = useState([]);
   let navigate = useNavigate();
+  useEffect(() => {
+    const bearer_token = localStorage
+      .getItem("userToken")
+      ?.replace(/['"]+/g, "");
+
+    if (bearer_token) {
+      const getUsers = async () => {
+        const res = await fetch("http://localhost:4000/api/users", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            authorization: `Bearer ${bearer_token.replaceAll('^"|"$', "")}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await res.json();
+        setUsers(data.payload);
+      };
+
+      getUsers();
+    }
+  }, []);
+
   return (
     <>
       <div
@@ -58,33 +84,19 @@ const UserList = () => {
           <h1>Users List</h1>
         </header>
         <div className="usersContainer">
-          <div className="user">
-            <div className="image">
-              <img src={userPic}></img>
-            </div>
-            <div className="desc">
-              <h2>Patrick Nshimiyimana</h2>
-              <p>Pharmacist</p>
-            </div>
-          </div>
-          <div className="user">
-            <div className="image">
-              <img src={userPic}></img>
-            </div>
-            <div className="desc">
-              <h2>Patrick Nshimiyimana</h2>
-              <p>Pharmacist</p>
-            </div>
-          </div>
-          <div className="user">
-            <div className="image">
-              <img src={userPic}></img>
-            </div>
-            <div className="desc">
-              <h2>Patrick Nshimiyimana</h2>
-              <p>Pharmacist</p>
-            </div>
-          </div>
+          {users.map((user: any) => {
+            return (
+              <div className="user" key={user.id}>
+                <div className="image">
+                  <img src={userPic}></img>
+                </div>
+                <div className="desc">
+                  <h2>{user.firstName} {user.lastName}</h2>
+                  <p>{user.role}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

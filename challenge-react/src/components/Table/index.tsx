@@ -6,7 +6,7 @@ import Table from "./Table";
 import "./index.scss";
 
 const Layout: React.FC = () => {
-  const [datas, setData] = useState<any>();
+  const [datas, setDatas] = useState<any>();
   const navigate = useNavigate();
 
   const bearer_token: any = localStorage
@@ -23,7 +23,7 @@ const Layout: React.FC = () => {
       ?.replace(/['"]+/g, "");
 
     if (bearer_token) {
-      const result = async () => {
+      const getData = async () => {
         const res = await fetch("http://localhost:4000/api/userData", {
           method: "GET",
           credentials: "include",
@@ -34,12 +34,14 @@ const Layout: React.FC = () => {
         });
 
         const data = await res.json();
-        setData(data);
+        setDatas(data);
       };
 
-      result();
+      getData();
     }
   }, []);
+
+  console.log(datas);
 
   return (
     <div
@@ -101,6 +103,20 @@ const Layout: React.FC = () => {
         </Button>
       </div>
       <div>
+        <h2 style={{ textAlign: "center", color: "#67CD79" }}>
+          {user.role === "Patient" && "Patient illnesses 2000 - 2002"}
+          {user.role === "Pharmacist" && "Most bought drugs 2000 - 2002"}
+          {user.role === "Physician" && "Physicians missions 2000 - 2002"}
+        </h2>
+        {user.role === "Admin" && (
+          <div style={{ textAlign: "center", color: "#67CD79" }}>
+            <h1>Admin data - All tables</h1>
+            <h4>Table1 - Patient illnesses 2000 - 2002</h4>
+            <h4>Table2 - Most bought drugs 2000 - 2002</h4>
+            <h4>Table3 - Physicians missions 2000 - 2002</h4>
+          </div>
+        )}
+
         {datas && !datas.adminData ? (
           <Table datas={datas} adminData={datas.data} />
         ) : (

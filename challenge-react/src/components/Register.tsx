@@ -4,7 +4,7 @@ import eyeSvg from "../assets/eye.svg";
 import { useState } from "react";
 import swal from "sweetalert2";
 import axios from "axios";
-import "../styles/style.scss"
+import "../styles/style.scss";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Register = () => {
     age: "",
   });
 
-  const handleRegister = async (e: { preventDefault: () => void; }) => {
+  const handleRegister = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log(userData);
     try {
@@ -29,9 +29,11 @@ const Register = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(res);
-      swal.fire("Success", res.data.message, "success");
-      navigate("/login");
+      res.data.error
+        ? swal.fire("Failed!", res.data.error, "error")
+        : swal.fire("Success", res.data.message, "success");
+      res.data.message.includes("registered successfully!") &&
+        navigate("/login");
     } catch (error: any) {
       console.log(error);
       swal.fire("Failed!", error.response.data.message, "error");

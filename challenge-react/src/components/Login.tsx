@@ -22,8 +22,11 @@ const Login = () => {
       );
       console.log(res);
       localStorage.setItem("userToken", JSON.stringify(res.data.payload))
-      swal.fire("Success", res.data.message, "success");
-      navigate("/");
+      res.data.error
+        ? swal.fire("Failed!", res.data.error, "error")
+        : swal.fire("Success", res.data.message, "success");
+      res.data.message.includes("logged in Successfully") &&
+        navigate("/");
     } catch (error: any) {
       console.log(error);
       swal.fire("Failed!", error.response.data.message, "error");
