@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  tomcat-server:
+    build: ./user-servlet
+    ports:
+      - 8080:8080
+  node-api:
+    build: ./challenge-node
+    ports:
+      - 4000:4000
+  react-fe:
+    build: ./challenge-react
+    ports:
+      - 3000:3000
