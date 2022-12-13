@@ -2,8 +2,11 @@ import userPic from "../assets/user.png";
 import { Button } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
+
 const UserList = () => {
   const [users, setUsers] = useState([]);
+
   let navigate = useNavigate();
   useEffect(() => {
     const bearer_token = localStorage
@@ -28,6 +31,13 @@ const UserList = () => {
       getUsers();
     }
   }, []);
+
+  let usersCsv: any = [["First name", "Last name", "Email", "Role"]];
+  users.forEach((user: any) => {
+    user = [user.firstName, user.lastName, user.email, user.role];
+    usersCsv.push(user);
+  });
+  const csvData = usersCsv;
 
   return (
     <>
@@ -80,8 +90,18 @@ const UserList = () => {
         </Button>
       </div>
       <div className="userList">
-        <header>
+        <header style={{display: "flex", justifyContent:"space-around"}}>
           <h1>Users List</h1>
+          {/* <Button className="btn"> */}
+            <CSVLink
+              data={csvData}
+              filename="users.csv"
+              target="_blank"
+              style={{ textDecoration: "none", color: "#67CD79", fontWeight: "bold" }}
+            >
+              Export to csv
+            </CSVLink>
+          {/* </Button> */}
         </header>
         <div className="usersContainer">
           {users.map((user: any) => {
@@ -91,7 +111,9 @@ const UserList = () => {
                   <img src={userPic}></img>
                 </div>
                 <div className="desc">
-                  <h2>{user.firstName} {user.lastName}</h2>
+                  <h2>
+                    {user.firstName} {user.lastName}
+                  </h2>
                   <p>{user.role}</p>
                 </div>
               </div>
