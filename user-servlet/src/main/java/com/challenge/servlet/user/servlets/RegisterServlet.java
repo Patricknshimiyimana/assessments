@@ -19,7 +19,7 @@ import com.challenge.servlet.utils.ResForm;
 import com.challenge.servlet.utils.ResponseUtil;
 
 @WebServlet("/register")
-public class SignupServlet extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

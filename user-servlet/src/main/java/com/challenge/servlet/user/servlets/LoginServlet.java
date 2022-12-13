@@ -15,7 +15,7 @@ import com.challenge.servlet.utils.ResForm;
 import com.challenge.servlet.utils.ResponseUtil;
 
 @WebServlet("/login")
-public class SigninServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         User user = new JSONUtil().parseBodyJson(req, User.class);
